@@ -26,7 +26,7 @@ const DashFooter = () => {
 
                         <div>
                             <h1 className="text-xl font-black text-gray-900">
-                                GenAI Exam
+                                GenAI Exam v1.0.0
                             </h1>
 
                             <p className="text-xs text-gray-500">
@@ -109,7 +109,7 @@ const DashFooter = () => {
             <div className="border-t border-gray-100 py-6 text-center">
 
                 <p className="text-xs text-gray-500">
-                    © {year} GenAI Exam System • All rights reserved • Built by{" "}
+                    © {year} GenAI Exam System - v1.0.0 • All rights reserved • Built by{" "}
                     <a
                         href="https://www.blackalphalabs.com"
                         target="_blank"

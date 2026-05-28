@@ -7,6 +7,12 @@ import PrivateRoute from './PrivateRoute'
 import Dashboard from '../layouts/Dashboard'
 import DashError from '../component/Dashboard/DashError'
 import Unauthorized from './Unauthorized'
+import Users from '../pages/Dashboard/users/Users'
+import CreateNewUser from '../pages/Dashboard/users/CreateNewUser'
+import ViewUser from '../pages/Dashboard/users/ViewUser'
+import Roles from '../pages/Dashboard/roles/Roles'
+import ViewRole from '../pages/Dashboard/roles/ViewRole'
+import CreateNewRole from '../pages/Dashboard/roles/CreateNewRole'
 // import DashHome from '../pages/dashboard/DashHome'
 
 
@@ -28,6 +34,18 @@ function App() {
                 
                     {/* <Route index element={<PrivateRoute roles={['super_admin', 'lecturer', 'student', 'staff']} ><DashHome /></PrivateRoute> } /> */}
                    
+                    {/* user management */}
+                    <Route path='users' element={<PrivateRoute roles={['super_admin', 'staff']} ><Users /></PrivateRoute> } />
+                    <Route path='create-user' element={<PrivateRoute roles={['super_admin', 'staff']} ><CreateNewUser /></PrivateRoute> } />
+                    <Route path='users/:id' element={<PrivateRoute roles={['super_admin', 'staff']} ><ViewUser /></PrivateRoute> } />
+
+                    {/* role management */}
+                    <Route path='roles' element={<PrivateRoute roles={['super_admin']} ><Roles /></PrivateRoute> } />
+                    <Route path='roles/:id' element={<PrivateRoute roles={['super_admin']} ><ViewRole /></PrivateRoute> } />
+                    <Route path='create-role' element={<PrivateRoute roles={['super_admin']} ><CreateNewRole /></PrivateRoute> } />
+
+
+
                 </Route>
 
 

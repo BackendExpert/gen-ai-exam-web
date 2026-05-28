@@ -18,7 +18,7 @@ import {
 
 import { NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
-import { FaUser } from "react-icons/fa6";
+import { FaUser, FaUserGraduate } from "react-icons/fa6";
 
 const DashSide = () => {
     const { auth } = useAuth();
@@ -67,6 +67,24 @@ const DashSide = () => {
             ],
         },
 
+
+        {
+            title: "student management",
+            items: [
+                {
+                    name: "Students",
+                    icon: <FaUserGraduate size={18} />,
+                    roles: ['super_admin', 'staff'],
+                    submenu: [
+                        {
+                            name: "Manage Students",
+                            link: "/dashboard/students",
+                        },
+                    ],
+                },
+            ],
+        },
+        
         {
             title: "administrative",
             items: [

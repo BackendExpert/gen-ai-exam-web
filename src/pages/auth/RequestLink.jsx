@@ -47,12 +47,13 @@ const RequestLink = () => {
 
         } catch (err) {
 
-            console.log(err)
+            // console.log(err)
 
             const message =
-                err.response?.data?.error?.message ||
-                'Something went wrong'
-
+                err.response?.data?.message ||
+                err.response?.data?.error ||
+                "Something went wrong"
+                
             setToast({
                 success: false,
                 message
