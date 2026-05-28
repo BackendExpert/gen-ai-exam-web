@@ -38,6 +38,11 @@ const DashNav = () => {
             );
     }, []);
 
+    const headleLogout = () => {
+        localStorage.removeItem("token");
+        window.location.reload()
+    }
+
     return (
         <div className="w-full px-8 py-5">
 
@@ -172,7 +177,7 @@ const DashNav = () => {
 
                                     </a>
 
-                                    <button className="w-full flex items-center gap-4 py-3 text-left text-gray-600 hover:text-red-500 transition">
+                                    <button onClick={() => headleLogout()} className="w-full flex items-center gap-4 py-3 text-left text-gray-600 hover:text-red-500 transition">
 
                                         <HiOutlineArrowRightOnRectangle size={22} />
 

@@ -10,7 +10,7 @@ import {
     FaFingerprint,
     FaArrowRight
 } from 'react-icons/fa'
-import LoginImg from '../../assets/LoginImg.png'
+
 import LoginButton from '../../component/Buttons/LoginButton'
 import LoginBgImg from '../../assets/loginBg.jpg'
 

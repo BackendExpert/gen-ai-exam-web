@@ -1,115 +1,123 @@
 import React from "react";
-import {
-    FaLinkedin,
-    FaGithub,
-    FaGlobe,
-} from "react-icons/fa";
+import { FaLinkedin, FaGithub, FaGlobe, FaBrain } from "react-icons/fa";
 
 const DashFooter = () => {
     const year = new Date().getFullYear();
 
     const quickLinks = [
-        {
-            name: "Dashboard",
-            href: "/dashboard",
-        },
-        {
-            name: "Documentation",
-            href: "#",
-        },
-        {
-            name: "Support",
-            href: "#",
-        },
-        {
-            name: "System Status",
-            href: "#",
-        },
+        { name: "Dashboard", href: "/dashboard" },
+        { name: "Documentation", href: "#" },
+        { name: "Support", href: "#" },
+        { name: "System Status", href: "#" },
     ];
 
     return (
-        <footer className="bg-white">
+        <footer className="bg-white border-t border-gray-100">
 
-            <div className="max-w-7xl mx-auto px-8 py-6 md:py-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-5">
+            <div className="max-w-7xl mx-auto px-8 py-12 grid md:grid-cols-3 gap-12">
 
-                <div className="flex flex-col md:flex-row items-start md:items-center gap-3">
+                <div>
 
-                    <h1 className="text-indigo-600 font-bold text-lg tracking-tight">
-                        MHMS
-                    </h1>
+                    <div className="flex items-center gap-3">
 
-                    <p className="text-sm text-gray-400 md:ml-2">
-                        © {year} Machine Health Monitoring System. All rights reserved.
+                        <div className="bg-gradient-to-r from-indigo-600 to-cyan-500 p-3 rounded-2xl shadow-md">
+                            <FaBrain className="text-white text-xl" />
+                        </div>
+
+                        <div>
+                            <h1 className="text-xl font-black text-gray-900">
+                                GenAI Exam
+                            </h1>
+
+                            <p className="text-xs text-gray-500">
+                                AI-Powered Examination System
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <p className="mt-5 text-gray-500 text-sm leading-6 max-w-sm">
+                        A next-generation AI-powered exam platform for intelligent assessment,
+                        automation, and smarter academic workflows.
                     </p>
 
                 </div>
 
-                <div className="flex flex-wrap gap-5">
+                <div>
 
-                    {quickLinks.map((link, index) => (
+                    <h2 className="text-gray-900 font-semibold mb-5">
+                        Quick Links
+                    </h2>
 
-                        <a
-                            key={index}
-                            href={link.href}
-                            className="text-sm text-gray-500 hover:text-indigo-600 transition"
-                        >
-                            {link.name}
-                        </a>
+                    <div className="space-y-3">
 
-                    ))}
+                        {quickLinks.map((link, index) => (
+                            <a
+                                key={index}
+                                href={link.href}
+                                className="block text-sm text-gray-500 hover:text-indigo-600 transition"
+                            >
+                                {link.name}
+                            </a>
+                        ))}
+
+                    </div>
 
                 </div>
 
-                <div className="flex items-center gap-4">
+                <div>
 
-                    <a
-                        href="https://www.blackalphalabs.com"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="text-gray-500 hover:text-indigo-600 transition"
-                    >
-                        <FaGlobe className="w-5 h-5" />
-                    </a>
+                    <h2 className="text-gray-900 font-semibold mb-5">
+                        Connect With Us
+                    </h2>
 
-                    <a
-                        href="https://linkedin.com"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="text-gray-500 hover:text-indigo-600 transition"
-                    >
-                        <FaLinkedin className="w-5 h-5" />
-                    </a>
+                    <div className="flex gap-4">
 
-                    <a
-                        href="https://github.com"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="text-gray-500 hover:text-indigo-600 transition"
-                    >
-                        <FaGithub className="w-5 h-5" />
-                    </a>
+                        <a
+                            href="https://www.blackalphalabs.com"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="p-3 rounded-xl bg-gray-100 hover:bg-gray-200 transition"
+                        >
+                            <FaGlobe />
+                        </a>
+
+                        <a
+                            href="https://linkedin.com"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="p-3 rounded-xl bg-gray-100 hover:bg-gray-200 transition"
+                        >
+                            <FaLinkedin />
+                        </a>
+
+                        <a
+                            href="https://github.com"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="p-3 rounded-xl bg-gray-100 hover:bg-gray-200 transition"
+                        >
+                            <FaGithub />
+                        </a>
+
+                    </div>
 
                 </div>
 
             </div>
 
-            <div className="py-3">
+            <div className="border-t border-gray-100 py-6 text-center">
 
-                <p className="text-center text-xs text-gray-400">
-
-                    Engineered by
-
+                <p className="text-xs text-gray-500">
+                    © {year} GenAI Exam System • All rights reserved • Built by{" "}
                     <a
                         href="https://www.blackalphalabs.com"
                         target="_blank"
                         rel="noreferrer"
-                        className="mx-1 text-indigo-600 hover:text-indigo-500 transition"
+                        className="text-indigo-600 hover:text-indigo-500 transition"
                     >
-                        BlackAlphaLabs PVT.Ltd
+                        BlackAlphaLabs
                     </a>
-
-                    • Enterprise Monitoring Platform
-
                 </p>
 
             </div>

@@ -12,10 +12,13 @@ import {
     ChevronDown,
     ChevronRight,
     Hexagon,
+    Users2,
+    Settings2,
 } from "lucide-react";
 
 import { NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import { FaUser } from "react-icons/fa6";
 
 const DashSide = () => {
     const { auth } = useAuth();
@@ -59,124 +62,43 @@ const DashSide = () => {
                     name: "Dashboard",
                     icon: <Activity size={18} />,
                     link: "/dashboard",
-                    roles: ['super_admin', 'plant_admin', 'engineer', 'viewer'],
+                    roles: ['super_admin', 'lecturer', 'student', 'staff'],
                 },
             ],
         },
 
         {
-            title: "Infrastructure",
-            items: [
-                {
-                    name: "Factories",
-                    icon: <Factory size={18} />,
-                    roles: ['super_admin'],
-                    submenu: [
-                        {
-                            name: "Create Factory",
-                            link: "/dashboard/factories/create",
-                        },
-                        {
-                            name: "All Factories",
-                            link: "/dashboard/factory",
-                        },
-                    ],
-                },
-
-                {
-                    name: "Production Lines",
-                    icon: <Radar size={18} />,
-                    roles: ['super_admin'],
-                    submenu: [
-                        {
-                            name: "Create Line",
-                            link: "/dashboard/Productions/create",
-                        },
-                        {
-                            name: "All Lines",
-                            link: "/dashboard/Production",
-                        },
-                    ],
-                },
-            ],
-        },
-
-        {
-            title: "Equipment",
-            items: [
-                {
-                    name: "Machines",
-                    icon: <Cpu size={18} />,
-                    roles: ['super_admin', 'plant_admin', 'engineer', 'viewer'],
-                    submenu: [
-                        {
-                            name: "Machine Registry",
-                            link: "/dashboard/Machine",
-                        },
-                    ],
-                },
-
-                {
-                    name: "Sensors",
-                    icon: <Shield size={18} />,
-                    roles: ['super_admin', 'plant_admin', 'engineer', 'viewer'],
-                    submenu: [
-                        {
-                            name: "Sensor Network",
-                            link: "/dashboard/Sensor",
-                        },
-                    ],
-                },
-            ],
-        },
-
-        {
-            title: "Operations",
-            items: [
-                {
-                    name: "Alerts",
-                    icon: <BellRing size={18} />,
-                    roles: ['super_admin', 'plant_admin', 'engineer', 'viewer'],
-                    submenu: [
-                        {
-                            name: "Active Alerts",
-                            link: "/dashboard/alert",
-                        },
-                    ],
-                },
-
-                {
-                    name: "Maintenance",
-                    icon: <Wrench size={18} />,
-                    roles: ['super_admin', 'plant_admin', 'engineer', 'viewer'],
-                    submenu: [
-                        {
-                            name: "Maintenance Jobs",
-                            link: "/dashboard/Maintenance",
-                        },
-                    ],
-                },
-            ],
-        },
-
-        {
-            title: "Administration",
+            title: "administrative",
             items: [
                 {
                     name: "Users",
-                    icon: <Users size={18} />,
-                    link: "/dashboard/users",
-                    roles: ['super_admin', 'plant_admin'],
-                },
-
-                {
-                    name: "Settings",
-                    icon: <Settings size={18} />,
-                    link: "/dashboard/settings",
-                    roles: ['super_admin', 'plant_admin'],
+                    icon: <Users2 size={18} />,
+                    roles: ['super_admin'],
+                    submenu: [
+                        {
+                            name: "Manage Users",
+                            link: "/dashboard/users",
+                        },
+                        {
+                            name: "Manage Roles",
+                            link: "/dashboard/roles",
+                        },
+                    ],
                 },
             ],
         },
+        {
+            title: "settings",
+            items: [
+                {
+                    name: "Settings",
+                    icon: <Settings2 size={18} />,
+                    link: "/dashboard/settings",
+                    roles: ['super_admin', 'lecturer', 'student', 'staff'],
+                },
+            ],
+        },
+
     ];
 
     const filteredMenus = menus
@@ -224,11 +146,11 @@ const DashSide = () => {
 
                     <div>
                         <h1 className="text-gray-900 font-bold text-lg">
-                            MHMS
+                            GenAI Exam
                         </h1>
 
                         <p className="text-gray-500 text-xs">
-                            Machine Health Monitoring
+                            AI-Powered Smart Examination Platform
                         </p>
                     </div>
                 </div>
@@ -252,8 +174,8 @@ const DashSide = () => {
                                             <button
                                                 onClick={() => toggleMenu(item.name)}
                                                 className={`w-full flex items-center justify-between px-3 py-3 rounded-xl transition-all duration-300 ${openMenu === item.name
-                                                        ? "bg-indigo-50 text-indigo-600"
-                                                        : "text-gray-700 hover:bg-indigo-50 hover:text-indigo-600"
+                                                    ? "bg-indigo-50 text-indigo-600"
+                                                    : "text-gray-700 hover:bg-indigo-50 hover:text-indigo-600"
                                                     }`}
                                             >
                                                 <div className="flex items-center gap-3">
@@ -273,8 +195,8 @@ const DashSide = () => {
 
                                             <div
                                                 className={`overflow-hidden transition-all duration-500 ${openMenu === item.name
-                                                        ? "max-h-96 opacity-100 mt-2"
-                                                        : "max-h-0 opacity-0"
+                                                    ? "max-h-96 opacity-100 mt-2"
+                                                    : "max-h-0 opacity-0"
                                                     }`}
                                             >
                                                 <div className="ml-5 pl-3 border-l border-gray-200 space-y-1">

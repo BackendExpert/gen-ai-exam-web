@@ -23,10 +23,10 @@ function App() {
                     <Route path='/unauthorized' element={<Unauthorized /> } />
                 </Route>
 
-                <Route path='/dashboard/' element={<PrivateRoute roles={['super_admin', 'plant_admin', 'engineer', 'viewer']} ><Dashboard /></PrivateRoute>}>
-                    <Route path='*' element={<PrivateRoute roles={['super_admin', 'plant_admin', 'engineer', 'viewer']} ><DashError /></PrivateRoute>} />
+                <Route path='/dashboard/' element={<PrivateRoute roles={['super_admin', 'lecturer', 'student', 'staff']} ><Dashboard /></PrivateRoute>}>
+                    <Route path='*' element={<PrivateRoute roles={['super_admin', 'lecturer', 'student', 'staff']} ><DashError /></PrivateRoute>} />
                 
-                    {/* <Route index element={<PrivateRoute roles={['super_admin', 'plant_admin', 'engineer', 'viewer']} ><DashHome /></PrivateRoute> } /> */}
+                    {/* <Route index element={<PrivateRoute roles={['super_admin', 'lecturer', 'student', 'staff']} ><DashHome /></PrivateRoute> } /> */}
                    
                 </Route>
 
