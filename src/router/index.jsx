@@ -16,6 +16,7 @@ import CreateNewRole from '../pages/Dashboard/roles/CreateNewRole'
 import Students from '../pages/Dashboard/students/Students'
 import StudentUploadBulk from '../pages/Dashboard/students/StudentUploadBulk'
 import CreateStudent from '../pages/Dashboard/students/CreateStudent'
+import MyProfile from '../pages/Dashboard/students/MyProfile'
 // import DashHome from '../pages/dashboard/DashHome'
 
 
@@ -52,6 +53,9 @@ function App() {
                     <Route path='students' element={<PrivateRoute roles={['super_admin', 'staff']} ><Students /></PrivateRoute> } />
                     <Route path='student/create' element={<PrivateRoute roles={['super_admin', 'staff']} ><CreateStudent /></PrivateRoute> } />
                     <Route path='student/upload-bulk' element={<PrivateRoute roles={['super_admin', 'staff']} ><StudentUploadBulk /></PrivateRoute> } />
+                    
+                    {/* Stundets */}
+                    <Route path='settings' element={<PrivateRoute roles={['super_admin', 'staff', 'lecturer', 'student']} ><MyProfile /></PrivateRoute> } />
                     
 
                 </Route>
