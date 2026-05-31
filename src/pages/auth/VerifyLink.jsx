@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import API from "../../services/api";
 import DefaultButton from "../../component/Buttons/DefaultButton";
 import { useAuth } from "../../context/AuthContext";
 import LoginBgImg from '../../assets/loginBg.jpg'
-
-let isRequestSent = false;
 
 const VerifyLink = () => {
     const [searchParams] = useSearchParams();
@@ -16,6 +14,8 @@ const VerifyLink = () => {
     const [verified, setVerified] = useState(false);
     const [user, setUser] = useState(null);
 
+    const requestSent = useRef(false);
+
     const token = searchParams.get("token");
 
     useEffect(() => {
@@ -25,8 +25,8 @@ const VerifyLink = () => {
             return;
         }
 
-        if (isRequestSent) return;
-        isRequestSent = true;
+        if (requestSent.current) return;
+        requestSent.current = true;
 
         const fetchVerifyData = async () => {
 
@@ -43,6 +43,9 @@ const VerifyLink = () => {
                 }
 
             } catch (err) {
+                if (err.response?.status === 409) {
+                    console.log("Token already used or expired");
+                }
                 navigate("/");
             } finally {
                 setLoading(false);

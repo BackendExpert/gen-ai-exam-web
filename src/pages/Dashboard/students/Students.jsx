@@ -4,115 +4,81 @@ import { FaPen } from 'react-icons/fa6'
 import DefaultInput from '../../../component/Form/DefaultInput'
 import Dropdown from '../../../component/Form/Dropdown'
 import DefaultButton from '../../../component/Buttons/DefaultButton'
-import Toast from '../../../component/Toast/Toast'
 
-const Users = () => {
+const Students = () => {
 
-    const [users, setUsers] = useState([])
+    const [students, setStudents] = useState([])
     const [search, setSearch] = useState('')
-    const [role, setRole] = useState('')
+    const [gender, setGender] = useState('')
+    const [batch, setBatch] = useState('')
     const [currentPage, setCurrentPage] = useState(1)
-    const [loading, setLoading] = useState(false)
-    const [toast, setToast] = useState(false)
 
     const token = localStorage.getItem('token')
-    const usersPerPage = 10
+    const studentsPerPage = 10
 
     useEffect(() => {
 
-        const fetchUsers = async () => {
+        const fetchStudents = async () => {
 
-            const res = await API.get('user/fetch-all', {
+            const res = await API.get('students/fetch-all', {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 }
             })
 
             if (res.data.success) {
-                setUsers(res.data.result)
+                setStudents(res.data.result)
             } else {
                 console.log(res.data.message)
             }
         }
 
-        if (token) fetchUsers()
+        if (token) fetchStudents()
 
     }, [token])
 
-    const uniqueRoles = [
-        ...new Set(users.map(u => u?.role?.role))
+    const uniqueGenders = [
+        ...new Set(students.map(s => s?.gender))
     ]
 
-    const filteredUsers = users.filter((user) => {
+    const uniqueBatches = [
+        ...new Set(students.map(s => s?.batch))
+    ]
 
-        const email = user.email?.toLowerCase() || ''
+    const filteredStudents = students.filter((student) => {
+
+        const email = student?.user?.email?.toLowerCase() || ''
         const username = email.split('@')[0]
+
+        const fullName = student?.full_name?.toLowerCase() || ''
+        const nic = student?.nic_no?.toLowerCase() || ''
+        const studentId = student?.student_id?.toLowerCase() || ''
 
         const matchesSearch =
             username.includes(search.toLowerCase()) ||
-            email.includes(search.toLowerCase())
+            fullName.includes(search.toLowerCase()) ||
+            nic.includes(search.toLowerCase()) ||
+            studentId.includes(search.toLowerCase())
 
-        const matchesRole =
-            role === '' || user?.role?.role === role
+        const matchesGender =
+            gender === '' || student?.gender === gender
 
-        return matchesSearch && matchesRole
+        const matchesBatch =
+            batch === '' || student?.batch === batch
+
+        return matchesSearch && matchesGender && matchesBatch
     })
 
-    const lastIndex = currentPage * usersPerPage
-    const firstIndex = lastIndex - usersPerPage
+    const lastIndex = currentPage * studentsPerPage
+    const firstIndex = lastIndex - studentsPerPage
 
-    const currentUsers = filteredUsers.slice(firstIndex, lastIndex)
+    const currentStudents = filteredStudents.slice(firstIndex, lastIndex)
 
-    const totalPages = Math.ceil(filteredUsers.length / usersPerPage)
-
-    const clearAuthLink = async (e) => {
-        e.preventDefault()
-
-        const confirmDelete = window.confirm("Are you sure you want to clear all auth links?")
-
-        if (!confirmDelete) return
-
-        setLoading(true)
-
-        try {
-            const res = await API.delete('user/clear-authlink', {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                }
-            })
-
-            if (res.data.success === true) {
-                setToast({
-                    success: true,
-                    message: res.data.message
-                })
-                setTimeout(() => {
-                    window.location.reload()
-                }, 3000)
-            } else {
-                setToast({
-                    success: false,
-                    message: res.data.message
-                })
-            }
-        } catch (err) {
-            console.log(err)
-        } finally {
-            setLoading(false)
-        }
-    }
+    const totalPages = Math.ceil(filteredStudents.length / studentsPerPage)
 
     return (
-        <div className="space-y-5">
-            {toast && (
-                <div className="fixed top-6 right-6 z-50">
-                    <Toast
-                        success={toast.success}
-                        message={toast.message}
-                        onClose={() => setToast(null)}
-                    />
-                </div>
-            )}
+        <div className="space-y-5 mb-8">
+
             <div className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
 
                 <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
@@ -121,9 +87,9 @@ const Users = () => {
 
                         <div className="w-full md:max-w-sm">
                             <DefaultInput
-                                label="Search User"
+                                label="Search Student"
                                 name="search"
-                                placeholder="Search by username or email"
+                                placeholder="Search by username, fullname, nic or student id"
                                 value={search}
                                 onChange={(e) => {
                                     setSearch(e.target.value)
@@ -134,18 +100,37 @@ const Users = () => {
 
                         <div className="w-full md:w-60">
                             <Dropdown
-                                label="Role"
-                                name="role"
-                                value={role}
+                                label="Gender"
+                                name="gender"
+                                value={gender}
                                 onChange={(e) => {
-                                    setRole(e.target.value)
+                                    setGender(e.target.value)
                                     setCurrentPage(1)
                                 }}
                                 options={[
-                                    { label: "All Roles", value: "" },
-                                    ...uniqueRoles.map((r) => ({
-                                        label: r,
-                                        value: r
+                                    { label: "All Gender", value: "" },
+                                    ...uniqueGenders.map((g) => ({
+                                        label: g,
+                                        value: g
+                                    }))
+                                ]}
+                            />
+                        </div>
+
+                        <div className="w-full md:w-60">
+                            <Dropdown
+                                label="Batch"
+                                name="batch"
+                                value={batch}
+                                onChange={(e) => {
+                                    setBatch(e.target.value)
+                                    setCurrentPage(1)
+                                }}
+                                options={[
+                                    { label: "All Batch", value: "" },
+                                    ...uniqueBatches.map((b) => ({
+                                        label: b,
+                                        value: b
                                     }))
                                 ]}
                             />
@@ -153,80 +138,102 @@ const Users = () => {
 
                     </div>
 
-                    <div className="w-full md:w-auto">
-                        <form onSubmit={clearAuthLink} method="post">
-                            <DefaultButton
-                                type="submit"
-                                label="Clear Auth Link (IF Needed)"
-                            />
-                        </form>
-                    </div>
-                    <div className="w-full md:w-auto">
-                        <a href="/dashboard/create-user">
-                            <DefaultButton
-                                type="button"
-                                label="Create New User"
-                            />
-                        </a>
+                    <div className="">
+                        <div className="md:flex">
+                            <div className="">
+                                <a href="/dashboard/student/create">
+                                    <DefaultButton
+                                        type='button'
+                                        label='Create Single Student'
+                                    />
+                                </a>
+                            </div>
+
+                            <div className="md:ml-4 md:mt-0 mt-4">
+                                <a href="/dashboard/student/upload-bulk">
+                                    <DefaultButton
+                                        type='button'
+                                        label='Upload Student Bluk'
+                                    />
+                                </a>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
 
             </div>
 
-            <div className="grid gap-4 md:hidden">
+            <div className="grid grid-cols-1 gap-4 md:hidden">
 
-                {currentUsers.length > 0 ? (
-                    currentUsers.map((data, index) => {
+                {currentStudents.length > 0 ? (
+                    currentStudents.map((data, index) => {
                         return (
                             <div
                                 key={data._id}
-                                className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm"
+                                className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm w-full overflow-hidden"
                             >
 
-                                <div className="flex items-center justify-between">
+                                <div className="flex items-start justify-between gap-3">
 
-                                    <div className="flex items-center gap-3">
+                                    <div className="flex items-start gap-3 min-w-0 flex-1">
 
-                                        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-indigo-500 text-white font-semibold uppercase">
-                                            {data.email?.charAt(0)}
+                                        <div className="flex h-12 w-12 min-w-[48px] items-center justify-center rounded-full bg-indigo-500 text-white font-semibold uppercase">
+                                            {data?.full_name?.charAt(0)}
                                         </div>
 
-                                        <div>
-                                            <h2 className="font-semibold text-gray-800">
-                                                {data.email?.split('@')[0]}
+                                        <div className="min-w-0 flex-1">
+
+                                            <h2 className="font-semibold text-gray-800 break-words">
+                                                {data?.full_name}
                                             </h2>
 
-                                            <p className="text-sm text-gray-500">
-                                                {data.email}
+                                            <p className="text-sm text-gray-500 break-all">
+                                                {data?.user?.email}
                                             </p>
 
-                                            <p className="text-sm text-gray-500">
-                                                {data.account_stats ? <span>Active</span> : <span>Deactive</span>}
+                                            <p className="text-sm text-gray-500 break-words">
+                                                {data?.student_id}
                                             </p>
+
                                         </div>
-
 
                                     </div>
 
                                     <a
-                                        href={`users/${data._id}`}
-                                        className="rounded-lg border border-gray-200 p-2 text-gray-600 hover:bg-indigo-500 hover:text-white transition"
+                                        href={`students/${data._id}`}
+                                        className="flex h-10 w-10 min-w-[40px] items-center justify-center rounded-lg border border-gray-200 text-gray-600 hover:bg-indigo-500 hover:text-white transition"
                                     >
                                         <FaPen size={14} />
                                     </a>
 
                                 </div>
 
-                                <div className="mt-4 flex items-center justify-between">
+                                <div className="mt-4 grid grid-cols-2 gap-3">
 
-                                    <span className="text-sm font-medium text-gray-500">
-                                        Role
-                                    </span>
+                                    <div className="rounded-xl bg-gray-50 p-3">
 
-                                    <span className="rounded-full bg-indigo-100 px-3 py-1 text-xs font-semibold capitalize text-indigo-700">
-                                        {data?.role?.role}
-                                    </span>
+                                        <p className="text-xs text-gray-500">
+                                            Gender
+                                        </p>
+
+                                        <p className="mt-1 text-sm font-semibold text-indigo-600 capitalize break-words">
+                                            {data?.gender}
+                                        </p>
+
+                                    </div>
+
+                                    <div className="rounded-xl bg-gray-50 p-3">
+
+                                        <p className="text-xs text-gray-500">
+                                            Batch
+                                        </p>
+
+                                        <p className="mt-1 text-sm font-semibold text-indigo-600 break-words">
+                                            {data?.batch}
+                                        </p>
+
+                                    </div>
 
                                 </div>
 
@@ -235,7 +242,7 @@ const Users = () => {
                     })
                 ) : (
                     <div className="rounded-2xl border border-gray-200 bg-white p-6 text-center text-gray-500">
-                        No users found
+                        No students found
                     </div>
                 )}
 
@@ -254,7 +261,7 @@ const Users = () => {
                             </th>
 
                             <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500">
-                                User
+                                Student
                             </th>
 
                             <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500">
@@ -262,11 +269,19 @@ const Users = () => {
                             </th>
 
                             <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500">
-                                Account Stats
+                                NIC
                             </th>
 
                             <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500">
-                                Role
+                                Student ID
+                            </th>
+
+                            <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500">
+                                Gender
+                            </th>
+
+                            <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500">
+                                Batch
                             </th>
 
                             <th className="px-6 py-4 text-center text-xs font-semibold text-gray-500">
@@ -279,8 +294,8 @@ const Users = () => {
 
                     <tbody className="divide-y divide-gray-100">
 
-                        {currentUsers.length > 0 ? (
-                            currentUsers.map((data, index) => {
+                        {currentStudents.length > 0 ? (
+                            currentStudents.map((data, index) => {
                                 return (
                                     <tr key={data._id} className="hover:bg-gray-50">
 
@@ -293,12 +308,12 @@ const Users = () => {
                                             <div className="flex items-center gap-3">
 
                                                 <div className="flex h-10 w-10 items-center justify-center rounded-full bg-indigo-500 text-white font-semibold uppercase">
-                                                    {data.email?.charAt(0)}
+                                                    {data?.full_name?.charAt(0)}
                                                 </div>
 
                                                 <div>
                                                     <p className="font-semibold text-gray-800">
-                                                        {data.email?.split('@')[0]}
+                                                        {data?.full_name}
                                                     </p>
                                                 </div>
 
@@ -307,25 +322,33 @@ const Users = () => {
                                         </td>
 
                                         <td className="px-6 py-4 text-gray-600">
-                                            {data.email}
+                                            {data?.user?.email}
+                                        </td>
+
+                                        <td className="px-6 py-4 text-gray-600">
+                                            {data?.nic_no}
+                                        </td>
+
+                                        <td className="px-6 py-4 text-gray-600">
+                                            {data?.student_id}
                                         </td>
 
                                         <td className="px-6 py-4">
                                             <span className="px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 text-xs font-semibold capitalize">
-                                                {data?.account_stats ? "Active" : "Deactive"}
+                                                {data?.gender}
                                             </span>
                                         </td>
 
                                         <td className="px-6 py-4">
                                             <span className="px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 text-xs font-semibold capitalize">
-                                                {data?.role?.role}
+                                                {data?.batch}
                                             </span>
                                         </td>
 
                                         <td className="px-6 py-4 text-center">
 
                                             <a
-                                                href={`users/${data._id}`}
+                                                href={`students/${data._id}`}
                                                 className="inline-flex items-center justify-center rounded-lg border border-gray-200 p-2 text-gray-600 hover:bg-indigo-500 hover:text-white transition"
                                             >
                                                 <FaPen size={14} />
@@ -338,8 +361,8 @@ const Users = () => {
                             })
                         ) : (
                             <tr>
-                                <td colSpan={5} className="text-center py-10 text-gray-500">
-                                    No users found
+                                <td colSpan={8} className="text-center py-10 text-gray-500">
+                                    No students found
                                 </td>
                             </tr>
                         )}
@@ -387,4 +410,4 @@ const Users = () => {
     )
 }
 
-export default Users
+export default Students
