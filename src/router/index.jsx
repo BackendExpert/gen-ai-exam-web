@@ -18,6 +18,7 @@ import StudentUploadBulk from '../pages/Dashboard/students/StudentUploadBulk'
 import CreateStudent from '../pages/Dashboard/students/CreateStudent'
 import MyProfile from '../pages/Dashboard/students/MyProfile'
 import Courses from '../pages/Dashboard/course/Courses'
+import CreateCourse from '../pages/Dashboard/course/CreateCourse'
 // import DashHome from '../pages/dashboard/DashHome'
 
 
@@ -60,6 +61,7 @@ function App() {
                     
                     {/* course admin managemet */}
                     <Route path='course' element={<PrivateRoute roles={['super_admin', 'staff']} ><Courses /></PrivateRoute> } />
+                    <Route path='courses/create' element={<PrivateRoute roles={['super_admin', 'staff']} ><CreateCourse /></PrivateRoute> } />
 
 
                 </Route>
