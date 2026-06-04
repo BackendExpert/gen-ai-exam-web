@@ -4,8 +4,11 @@ import API from '../../../services/api'
 import DefaultInput from '../../../component/Form/DefaultInput'
 import Dropdown from '../../../component/Form/Dropdown'
 import DefaultButton from '../../../component/Buttons/DefaultButton'
+import Toast from '../../../component/Toast/Toast'
+import { useNavigate } from 'react-router-dom'
 
 const CreateCourse = () => {
+    const navigate = useNavigate()
     const token = localStorage.getItem('token')
     const [loading, setLoading] = useState(false)
     const [toast, setToast] = useState(false)
@@ -13,18 +16,14 @@ const CreateCourse = () => {
 
     useEffect(() => {
         const fetchLecturers = async () => {
-            const res = await API.get('user/fetch-all', {
+            const res = await API.get('course/fetch-lectuers', {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 }
             });
 
             if (res.data.success) {
-                const lecturers = res.data.result.filter(
-                    user => user?.role?.role === "lecturer"
-                );
-
-                setLectuers(lecturers);
+                setLectuers(res.data.result);
             } else {
                 console.log(res.data.message);
             }
@@ -55,7 +54,7 @@ const CreateCourse = () => {
                     message: res.data.message
                 })
                 setTimeout(() => {
-                    navigate('/dashboard/')
+                    navigate('/dashboard/course')
                 }, 3000);
             }
             else {
@@ -74,6 +73,15 @@ const CreateCourse = () => {
     }
     return (
         <div>
+            {toast && (
+                <div className="fixed top-6 right-6 z-50">
+                    <Toast
+                        success={toast.success}
+                        message={toast.message}
+                        onClose={() => setToast(null)}
+                    />
+                </div>
+            )}
             <div className="bg-white p-4 rounded shadow">
                 <form onSubmit={headlerCreateCourse} method="post">
                     <div className="">
