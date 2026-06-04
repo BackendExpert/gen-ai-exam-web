@@ -17,6 +17,7 @@ import Students from '../pages/Dashboard/students/Students'
 import StudentUploadBulk from '../pages/Dashboard/students/StudentUploadBulk'
 import CreateStudent from '../pages/Dashboard/students/CreateStudent'
 import MyProfile from '../pages/Dashboard/students/MyProfile'
+import Courses from '../pages/Dashboard/course/Courses'
 // import DashHome from '../pages/dashboard/DashHome'
 
 
@@ -57,6 +58,9 @@ function App() {
                     {/* Stundets */}
                     <Route path='settings' element={<PrivateRoute roles={['super_admin', 'staff', 'lecturer', 'student']} ><MyProfile /></PrivateRoute> } />
                     
+                    {/* course admin managemet */}
+                    <Route path='course' element={<PrivateRoute roles={['super_admin', 'staff']} ><Courses /></PrivateRoute> } />
+
 
                 </Route>
 

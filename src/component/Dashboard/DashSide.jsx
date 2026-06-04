@@ -19,6 +19,7 @@ import {
 import { NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { FaUser, FaUserGraduate } from "react-icons/fa6";
+import { FaBookReader } from "react-icons/fa";
 
 const DashSide = () => {
     const { auth } = useAuth();
@@ -84,7 +85,41 @@ const DashSide = () => {
                 },
             ],
         },
-        
+
+        {
+            title: "course management",
+            items: [
+                {
+                    name: "Courses",
+                    icon: <FaBookReader size={18} />,
+                    roles: ['super_admin', 'staff'],
+                    submenu: [
+                        {
+                            name: "Manage course",
+                            link: "/dashboard/course",
+                        },
+                    ],
+                },
+            ],
+        },
+
+        {
+            title: "course management",
+            items: [
+                {
+                    name: "My Courses",
+                    icon: <FaBookReader size={18} />,
+                    roles: ['lecturer', 'student'],
+                    submenu: [
+                        {
+                            name: "My courses",
+                            link: "/dashboard/my-courses",
+                        },
+                    ],
+                },
+            ],
+        },
+
         {
             title: "administrative",
             items: [
